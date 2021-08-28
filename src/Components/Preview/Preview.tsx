@@ -1,34 +1,59 @@
 import React,{useRef,useEffect,useContext} from 'react'
 import { useState } from 'react'
 import WidthRatio from '../../context/ratioContext'
-import Resize from '../Resizable/Reziable'
 import './preview.css'
 interface PreviewPros{
     processedCode:string|undefined,
-    wRatio:number
+    error:any
 }  
-let html=`<html>
-<body><div id='root'></div>
-<script>
-window.addEventListener('message',(event)=>{
- eval(event.data)
-})
-</script>
-</body>
-</html>`
-const Preview:React.FC<PreviewPros>=({processedCode})=>{
+
+const Preview:React.FC<PreviewPros>=({processedCode,error})=>{
+    const html=`<html>
+    <body><div id='root'></div>
+    
+    <script>
+  
+     
+    const handleError=(error)=>{
+        document.querySelector('#root').innerHTML=error
+        document.querySelector('#root').style.color='red'
+    }
+    
+    window.addEventListener('error',(event)=>{
+        event.preventDefault()
+        handleError(event.error)      
+    })
+    
+    window.addEventListener('message',(event)=>{
+
+        try{     
+            
+            if(${!error}){
+                document.querySelector('#root').style.color='#555555'
+                eval(event.data)
+            }
+               
+        }catch(ex){
+            handleError(ex.message)
+        }
+    
+    })
+    </script>
+    </body>
+    </html>`
     let iFrameRef=useRef<any>()
     const [wRatio,handleWRatio]=useContext(WidthRatio)
-    console.log('wRatio',wRatio)
-    useEffect(()=>{
-        iFrameRef.current.srcDoc=html
+    useEffect(()=>{     
+        iFrameRef.current.srcDoc=html   
         iFrameRef.current.contentWindow.postMessage(processedCode,'*')
-      },[processedCode])
+      
+      },[processedCode,error])
    
     return(
          
         <div className="preview" style={{width:wRatio<0?`calc(50% + ${Math.abs(wRatio)}px)`: `calc(50% + ${wRatio}px)`}}>     
-            <iframe srcDoc={html} ref={iFrameRef} sandbox='allow-scripts' ></iframe>     
+            <iframe srcDoc={html} ref={iFrameRef} sandbox='allow-scripts' ></iframe> 
+            {error&&<div className='error-formating'>{error}</div>}    
         </div>
       
     )

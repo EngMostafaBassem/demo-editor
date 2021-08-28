@@ -1,4 +1,11 @@
 .preview{
+    position: relative;
     background-color: white;
     max-height: 45vh;
+}
+.error-formating{
+    position: absolute;
+    top: 2px;
+    left: 0;
+    color: red;
 }

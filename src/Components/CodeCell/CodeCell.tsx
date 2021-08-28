@@ -6,16 +6,21 @@ import Resize from '../Resizable/Reziable';
 import './code-cell.css'
 import WidthRatio from '../../context/ratioContext';
 import { useEffect } from 'react';
+import EsbuildContext from '../../context/esbuildContext';
+import { useContext } from 'react';
 const CodeCell=()=>{
 
   const [code,setCode]=useState<string>('')
+  const[error,setError]=useState<string>('')
   const [wRatio,setWRatio]=useState<number>(0)
-  let [transpiled,setTranspiled]=useState<string>()
-
+  const esbuildStatus=useContext(EsbuildContext)
+  const [transpiled,setTranspiled]=useState<string>()
    useEffect(()=>{
+
      setTimeout(async() => {
-      let transplied=await bundle(code)
-      setTranspiled(transplied)    
+      let transplied=await bundle(code,esbuildStatus) 
+      setTranspiled(transplied?.code) 
+      setError(transplied?.error?.message) 
      }, 1000);
      return ()=>{
        clearTimeout()
@@ -35,7 +40,7 @@ const CodeCell=()=>{
       <div className="container">
         <WidthRatio.Provider value={[wRatio,handleWRatio]}>
          <CodeEditor handleCodeChange={handleCodeChange} />
-         <Preview processedCode={transpiled} wRatio={wRatio}/>
+         <Preview processedCode={transpiled}  error={error}/>
        </WidthRatio.Provider>
      </div>
   )
