@@ -11,9 +11,7 @@ const Preview:React.FC<PreviewPros>=({processedCode,error})=>{
     const html=`<html>
     <body><div id='root'></div>
     
-    <script>
-  
-     
+    <script> 
     const handleError=(error)=>{
         document.querySelector('#root').innerHTML=error
         document.querySelector('#root').style.color='red'
@@ -25,16 +23,14 @@ const Preview:React.FC<PreviewPros>=({processedCode,error})=>{
     })
     
     window.addEventListener('message',(event)=>{
-
-        try{     
-            
-            if(${!error}){
+        try{          
+                document.querySelector('#root').innerHTML=''
                 document.querySelector('#root').style.color='#555555'
                 eval(event.data)
-            }
+            
                
         }catch(ex){
-            handleError(ex.message)
+            handleError(ex)
         }
     
     })
@@ -46,9 +42,8 @@ const Preview:React.FC<PreviewPros>=({processedCode,error})=>{
     useEffect(()=>{     
         iFrameRef.current.srcDoc=html   
         iFrameRef.current.contentWindow.postMessage(processedCode,'*')
-      
-      },[processedCode,error])
-   
+      },[processedCode])
+   console.log('transpiled',processedCode)
     return(
          
         <div className="preview" style={{width:wRatio<0?`calc(50% + ${Math.abs(wRatio)}px)`: `calc(50% + ${wRatio}px)`}}>     

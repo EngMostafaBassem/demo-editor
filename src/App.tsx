@@ -19,9 +19,7 @@ const App=()=>{
 
   return(
     <EsbuildContext.Provider value={esbuildStatus}>   
-      <CodeCell/>   
-      <CodeCell/> 
-      <CodeCell/>   
+      <CodeCell/>      
     </EsbuildContext.Provider>
   )
 }
