@@ -1,16 +1,23 @@
-import React from 'react'
 import Editor from "@monaco-editor/react";
+import './code-editor.css'
+import Resize from '../Resizable/Reziable';
 
 interface CodeEditorProps{
     handleCodeChange:(code:string)=>void
+  
 }
 const CodeEditor:React.FC<CodeEditorProps>=({handleCodeChange})=>{
+   
     const handelEditorChange=(value:any)=>{
         handleCodeChange(value)
        }
     return (
-    <>
-     <Editor height="40vh" 
+    <div className='editor-container'>
+    <Resize >
+        <div>
+        <Editor 
+      height="45vh" 
+      width="100%"
       defaultLanguage="javascript"
       onChange={handelEditorChange}
       theme="vs-dark"
@@ -25,7 +32,9 @@ const CodeEditor:React.FC<CodeEditorProps>=({handleCodeChange})=>{
         scrollBeyondLastLine:false,
      
         }}/>
-    </>
+        </div>
+        </Resize>
+    </div>
     )
 
 }

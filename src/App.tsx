@@ -1,10 +1,10 @@
-import './App.css';
 import 'bulmaswatch/superhero/bulmaswatch.min.css'
 import CodeCell from './Components/CodeCell/CodeCell';
+import './App.css'
 const App=()=>{
   return(
     <div>
-     <CodeCell/>    
+     <CodeCell/>      
     </div>
   )
 }
