@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 const CodeCell=()=>{
 
   const [code,setCode]=useState<string>('')
-  const [wRatio,setWRatio]=useState<number>(1)
+  const [wRatio,setWRatio]=useState<number>(0)
   let [transpiled,setTranspiled]=useState<string>()
 
    useEffect(()=>{

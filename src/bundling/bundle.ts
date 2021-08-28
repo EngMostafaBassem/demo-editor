@@ -1,14 +1,8 @@
 import * as esbuild from 'esbuild-wasm'
 import pathPlugin from '../bundling/plugins/pathPlugin';
 import fetchPlugin from '../bundling/plugins/fetchPlugin';
-let once=true
-const bundle=async (rawCode:string)=>{
 
-    if(once){
-        await esbuild.initialize({wasmURL:'/esbuild.wasm',worker:true})
-        once=false  
-    }
-   
+const bundle=async (rawCode:string)=>{ 
     let result:esbuild.BuildResult=await esbuild.build({
         entryPoints: ['index.js'],
         bundle: true,
