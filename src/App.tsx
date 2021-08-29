@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import * as esbuild from 'esbuild-wasm'
 import EsbuildContext from './context/esbuildContext';
 import { useState } from 'react';
+import TextEditor from './Components/TextEditor/TextEditor';
 const App=()=>{
   const [esbuildStatus,setEsbuildStatus]=useState<boolean>(false)
   const  startService= async()=>{
@@ -18,8 +19,8 @@ const App=()=>{
   },[])
 
   return(
-    <EsbuildContext.Provider value={esbuildStatus}>   
-      <CodeCell/>      
+    <EsbuildContext.Provider value={esbuildStatus}> 
+      <TextEditor/>  
     </EsbuildContext.Provider>
   )
 }
