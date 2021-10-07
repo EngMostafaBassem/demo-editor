@@ -3,4 +3,6 @@
     flex-direction: row;
     margin-top: 2rem;
     margin-bottom: 2rem;
+    max-width: 100%;
+    margin: 0rem 1rem ;
 }

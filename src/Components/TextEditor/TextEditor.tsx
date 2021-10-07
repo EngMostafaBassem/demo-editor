@@ -1,23 +1,37 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import MDEditor from '@uiw/react-md-editor';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useRef } from 'react';
+import './TextEditor.css'
+import { Cell } from '../../types-dictionary/cell';
+import {useDispatch} from 'react-redux'
+import {Creators} from '../../store/redux/cell/actions'
+interface TextEditorProps{
+    cell:Cell
+}
 
-const TextEditor=()=>{
-    const [text,setText]=useState<string|''>('')
-    const [previewMode,setPreviewMode]=useState<boolean>(false)
+const TextEditor:React.FC<TextEditorProps>=({cell})=>{
+    const [previewMode,setPreviewMode]=useState<boolean>(true)
     const refDiv=useRef<HTMLDivElement>(null)
-    const hadnleText=(value:string|undefined)=>{
-        setText(value||'')
-    }
+    const dispatch=useDispatch()
+    const hadnleText= useCallback((value:string|undefined)=>{
+        dispatch(Creators.updateCellRequest(cell.id,value))    
+    },[cell.content])
 
     useEffect(()=>{
         const handlePreview=(e:Event)=> {
-            if(refDiv.current?.contains(e.target as Node)){
+            if(refDiv.current?.contains(e.target as Node)&&previewMode==false){
+                console.log('test1')
+                return
+            }
+            if(refDiv.current?.contains(e.target as Node)==false&&previewMode==true){
+                console.log('test2')
                 return
             }
             setPreviewMode(previewMode=>!previewMode)
+           
+         
         }
        
         document.addEventListener('click',handlePreview,{capture:true})
@@ -26,12 +40,12 @@ const TextEditor=()=>{
         }
     })
     return(
-        <div ref={refDiv}>
+        <div ref={refDiv} className="text-editor-container">
             {
             previewMode?
-             <MDEditor.Markdown source={text} />:        
+             <MDEditor.Markdown source={cell.content||'Click here for editing....'} />:        
              <MDEditor
-              value={text}
+              value={cell.content}
               onChange={hadnleText}   
       />
             }

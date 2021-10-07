@@ -3,5 +3,5 @@ export const {Types,Creators}=createActions({
  moveCellRequest:['id','direction'],
  updateCellRequest:['id','content'],
  deleteCellRequest:['id'],
- insertBeforeCellRequest:['data']
+ insertAfterCellRequest:['preCellId','typeCell']
 })

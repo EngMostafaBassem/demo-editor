@@ -43,7 +43,6 @@ const Preview:React.FC<PreviewPros>=({processedCode,error})=>{
         iFrameRef.current.srcDoc=html   
         iFrameRef.current.contentWindow.postMessage(processedCode,'*')
       },[processedCode])
-   console.log('transpiled',processedCode)
     return(
          
         <div className="preview" style={{width:wRatio<0?`calc(50% + ${Math.abs(wRatio)}px)`: `calc(50% + ${wRatio}px)`}}>     

@@ -6,6 +6,7 @@ import * as esbuild from 'esbuild-wasm'
 import EsbuildContext from './context/esbuildContext';
 import { useState } from 'react';
 import TextEditor from './Components/TextEditor/TextEditor';
+import ListCell from './Components/ListCell/ListCell';
 const App=()=>{
   const [esbuildStatus,setEsbuildStatus]=useState<boolean>(false)
   const  startService= async()=>{
@@ -20,7 +21,7 @@ const App=()=>{
 
   return(
     <EsbuildContext.Provider value={esbuildStatus}> 
-      <TextEditor/>  
+      <ListCell/>   
     </EsbuildContext.Provider>
   )
 }

@@ -3,7 +3,8 @@ import './code-editor.css'
 import Resize from '../Resizable/Reziable';
 
 interface CodeEditorProps{
-    handleCodeChange:(code:string)=>void
+    
+    handleCodeChange:(id:string)=>void
   
 }
 const CodeEditor:React.FC<CodeEditorProps>=({handleCodeChange})=>{
