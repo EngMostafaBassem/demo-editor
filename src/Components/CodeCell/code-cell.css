@@ -6,3 +6,8 @@
     max-width: 100%;
     margin: 0rem 1rem ;
 }
+.code-cell-wrapper{
+    display:flex;
+    width: 100%;
+    min-height: 45vh;
+}

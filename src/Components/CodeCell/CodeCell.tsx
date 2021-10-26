@@ -3,7 +3,6 @@ import CodeEditor from '../CodeEditor/CodeEditor'
 import Preview from '../Preview/Preview';
 import bundle from '../../bundling/bundle'
 import './code-cell.css'
-import WidthRatio from '../../context/ratioContext';
 import { useEffect } from 'react';
 import EsbuildContext from '../../context/esbuildContext';
 import { useContext } from 'react';
@@ -18,37 +17,31 @@ interface CodeCellProps{
 const CodeCell:React.FC<CodeCellProps>=({cell})=>{
 
   const[error,setError]=useState<string>('')
-  const [wRatio,setWRatio]=useState<number>(0)
   const esbuildStatus=useContext(EsbuildContext)
   const [transpiled,setTranspiled]=useState<string>()
   const dispatch=useDispatch()
    useEffect(()=>{
+      console.log('cell content',cell.content)
+      let timer= setTimeout(async() => {
+                 let transplied=await bundle(cell.content,esbuildStatus)    
+                 setTranspiled(transplied?.code) 
+                 setError(transplied?.error?.message) 
+     }, 850);
 
-     setTimeout(async() => {
-      let transplied=await bundle(cell.content,esbuildStatus) 
-      setTranspiled(transplied?.code) 
-      setError(transplied?.error?.message) 
-     }, 1000);
      return ()=>{
-       clearTimeout()
+       clearTimeout(timer)
      }
 
-   })
-  
-
- const handleWRatio=(wRatio:number)=>{
-   setWRatio(wRatio)
-
- }
+   },[cell])
  const handleCodeChange=useCallback((content:string)=>{
    dispatch(Creators.updateCellRequest(cell.id,content))
  },[cell])
   return(
       <div className="container">
-        <WidthRatio.Provider value={[wRatio,handleWRatio]}>
-         <CodeEditor handleCodeChange={handleCodeChange} />
-         <Preview processedCode={transpiled}  error={error}/>
-       </WidthRatio.Provider>
+           <div className="code-cell-wrapper">
+            <CodeEditor handleCodeChange={handleCodeChange} />
+            <Preview processedCode={transpiled}  error={error}/>
+          </div>
      </div>
   )
 }

@@ -1,6 +1,4 @@
 import React,{useRef,useEffect,useContext} from 'react'
-import { useState } from 'react'
-import WidthRatio from '../../context/ratioContext'
 import './preview.css'
 interface PreviewPros{
     processedCode:string|undefined,
@@ -9,44 +7,43 @@ interface PreviewPros{
 
 const Preview:React.FC<PreviewPros>=({processedCode,error})=>{
     const html=`<html>
-    <body><div id='root'></div>
-    
-    <script> 
-    const handleError=(error)=>{
-        document.querySelector('#root').innerHTML=error
-        document.querySelector('#root').style.color='red'
+<body><div id='root'></div> 
+<script> 
+
+const handleError=(error)=>{
+    const root=document.querySelector('#root')
+    console.log('error',error)
+    root.innerHTML='<p style="color:red">'+error+'</p>'
+}
+
+window.addEventListener('error',(event)=>{
+    event.preventDefault()
+    handleError(event.error)      
+})
+
+window.addEventListener('message',(event)=>{
+    try{          
+      eval(event.data)
+    }catch(ex){
+        handleError(ex)
     }
-    
-    window.addEventListener('error',(event)=>{
-        event.preventDefault()
-        handleError(event.error)      
-    })
-    
-    window.addEventListener('message',(event)=>{
-        try{          
-                document.querySelector('#root').innerHTML=''
-                document.querySelector('#root').style.color='#555555'
-                eval(event.data)
-            
-               
-        }catch(ex){
-            handleError(ex)
-        }
-    
-    })
-    </script>
-    </body>
-    </html>`
-    let iFrameRef=useRef<any>()
-    const [wRatio,handleWRatio]=useContext(WidthRatio)
-    useEffect(()=>{     
-        iFrameRef.current.srcDoc=html   
-        iFrameRef.current.contentWindow.postMessage(processedCode,'*')
+
+},false);
+</script>
+</body>
+</html>`
+    const iFrameRef=useRef<any>()
+    useEffect(()=>{ 
+            iFrameRef.current.srcdoc=html 
+            setTimeout(() => {
+                iFrameRef.current.contentWindow.postMessage(processedCode,'*')
+            }, 50);
+           
       },[processedCode])
     return(
          
-        <div className="preview" style={{width:wRatio<0?`calc(50% + ${Math.abs(wRatio)}px)`: `calc(50% + ${wRatio}px)`}}>     
-            <iframe srcDoc={html} ref={iFrameRef} sandbox='allow-scripts' ></iframe> 
+        <div className="preview">     
+            <iframe title="preview"  ref={iFrameRef} sandbox='allow-scripts' srcDoc={html} ></iframe> 
             {error&&<div className='error-formating'>{error}</div>}    
         </div>
       

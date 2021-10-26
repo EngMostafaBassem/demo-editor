@@ -1,7 +1,9 @@
 .preview{
     position: relative;
     background-color: white;
-    max-height: 45vh;
+    height: inherit;
+    width: 50%;
+   
 }
 .error-formating{
     position: absolute;
