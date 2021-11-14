@@ -1,14 +1,15 @@
-import React, { useCallback, useState } from 'react';
 import CodeEditor from '../CodeEditor/CodeEditor'
 import Preview from '../Preview/Preview';
 import bundle from '../../bundling/bundle'
 import './code-cell.css'
-import { useEffect } from 'react';
+import { useEffect, useState,useCallback } from 'react';
 import EsbuildContext from '../../context/esbuildContext';
 import { useContext } from 'react';
 import { Cell } from '../../types-dictionary/cell';
-import {Creators} from '../../store/redux/cell/actions'
-import {useDispatch} from 'react-redux'
+import {Creators as CellCreators} from '../../store/redux/cell/actions'
+import {useDispatch, useSelector} from 'react-redux'
+import {ReduxStoreTypes} from '../../store/redux/rootReducer'
+import  {Creators as bundleCreators} from '../../store/redux/bundle/actions'
 
 interface CodeCellProps{
   cell:Cell
@@ -16,16 +17,12 @@ interface CodeCellProps{
 
 const CodeCell:React.FC<CodeCellProps>=({cell})=>{
 
-  const[error,setError]=useState<string>('')
+  const bundleState=useSelector((store:ReduxStoreTypes)=>store.bundleReducer)
   const esbuildStatus=useContext(EsbuildContext)
-  const [transpiled,setTranspiled]=useState<string>()
   const dispatch=useDispatch()
    useEffect(()=>{
-      console.log('cell content',cell.content)
       let timer= setTimeout(async() => {
-                 let transplied=await bundle(cell.content,esbuildStatus)    
-                 setTranspiled(transplied?.code) 
-                 setError(transplied?.error?.message) 
+         if(esbuildStatus) dispatch(bundleCreators.bundleGetRequest(cell.id,cell.content))                   
      }, 850);
 
      return ()=>{
@@ -34,13 +31,14 @@ const CodeCell:React.FC<CodeCellProps>=({cell})=>{
 
    },[cell])
  const handleCodeChange=useCallback((content:string)=>{
-   dispatch(Creators.updateCellRequest(cell.id,content))
+   dispatch(CellCreators.updateCellRequest(cell.id,content))
  },[cell])
+
   return(
       <div className="container">
            <div className="code-cell-wrapper">
             <CodeEditor handleCodeChange={handleCodeChange} />
-            <Preview processedCode={transpiled}  error={error}/>
+             <Preview  processedCode={bundleState[cell.id]?.code??''}  error={bundleState[cell.id]?.error?.message??''}/>
           </div>
      </div>
   )
