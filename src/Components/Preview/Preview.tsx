@@ -43,7 +43,7 @@ window.addEventListener('message',(event)=>{
     return(
          
         <div className="preview">     
-            <iframe title="preview"  ref={iFrameRef} sandbox='allow-scripts' srcDoc={html} ></iframe> 
+            <iframe title="preview"  ref={iFrameRef} sandbox='allow-scripts' srcDoc={html} width='100%' ></iframe> 
             {error&&<div className='error-formating'>{error}</div>}    
         </div>
       

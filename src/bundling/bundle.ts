@@ -11,7 +11,9 @@ const bundle=async(rawCode:string,isIntialized:boolean):Promise<{code:string,err
                 bundle: true,
                 write:false,
                 minify:true,
-                plugins:[pathPlugin(),fetchPlugin(rawCode)],       
+                plugins:[pathPlugin(),fetchPlugin(rawCode)],
+                jsxFactory:'_React.createELement',
+                jsxFragment:'_React.Fragment'       
               })
             return  result&&result?.outputFiles?{code:result.outputFiles[0].text,error:''}:{code:'',error:''}
             }

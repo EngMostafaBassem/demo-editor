@@ -18,7 +18,7 @@ const CodeEditor:React.FC<CodeEditorProps>=({handleCodeChange})=>{
           defaultLanguage="javascript"
           onChange={handelEditorChange}
           theme="vs-dark"
-          defaultValue="// let's write some code .."      
+          defaultValue="// let's write some code.. , use show() for display something"      
           options={{
            wordWrap:'on',
            minimap:{enabled:false},
