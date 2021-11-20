@@ -27,8 +27,6 @@ export const getBundleRequestSuccess=produce((state=INITIAL_STATE,action:any)=>{
 })
 
 export const getBundleRequestError=produce((state=INITIAL_STATE,action:any)=>{
-    console.log('the error is ',action.error)
-
     state[action.cellId]={loading:false,code:'',error:action.error}
       return state
 })

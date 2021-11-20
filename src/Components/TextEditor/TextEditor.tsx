@@ -21,12 +21,10 @@ const TextEditor:React.FC<TextEditorProps>=({cell})=>{
 
     useEffect(()=>{
         const handlePreview=(e:Event)=> {
-            if(refDiv.current?.contains(e.target as Node)&&previewMode==false){
-                console.log('test1')
+            if(refDiv.current?.contains(e.target as Node)&&previewMode==false){     
                 return
             }
-            if(refDiv.current?.contains(e.target as Node)==false&&previewMode==true){
-                console.log('test2')
+            if(refDiv.current?.contains(e.target as Node)==false&&previewMode==true){         
                 return
             }
             setPreviewMode(previewMode=>!previewMode)

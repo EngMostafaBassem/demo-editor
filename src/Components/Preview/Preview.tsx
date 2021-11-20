@@ -1,4 +1,4 @@
-import React,{useRef,useEffect,useContext} from 'react'
+import React,{useRef,useEffect} from 'react'
 import './preview.css'
 interface PreviewPros{
     processedCode:string|undefined,
@@ -12,7 +12,6 @@ const Preview:React.FC<PreviewPros>=({processedCode,error})=>{
 
 const handleError=(error)=>{
     const root=document.querySelector('#root')
-    console.log('error',error)
     root.innerHTML='<p style="color:red">'+error+'</p>'
 }
 

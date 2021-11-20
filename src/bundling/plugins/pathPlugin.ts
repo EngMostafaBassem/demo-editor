@@ -10,7 +10,6 @@ return{
       }))
   
        build.onResolve({ filter: /\.+\// }, args => {      
-           console.log(args.resolveDir) 
         return{
                 path: new URL(args.path,`https://unpkg.com${args.resolveDir}/`).href,
                 namespace: 'env-ns',

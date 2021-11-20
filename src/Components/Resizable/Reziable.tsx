@@ -1,7 +1,6 @@
 import React from 'react'
 import { Resizable } from "re-resizable";
 import './resizable.css'
-import { useContext } from "react";
 const Resize:React.FC=({children})=>{
     return (
         <Resizable 

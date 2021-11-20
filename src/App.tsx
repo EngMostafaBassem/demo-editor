@@ -1,11 +1,9 @@
 import 'bulmaswatch/superhero/bulmaswatch.min.css'
-import CodeCell from './Components/CodeCell/CodeCell';
 import './App.css'
 import { useEffect } from 'react';
 import * as esbuild from 'esbuild-wasm'
 import EsbuildContext from './context/esbuildContext';
 import { useState } from 'react';
-import TextEditor from './Components/TextEditor/TextEditor';
 import ListCell from './Components/ListCell/ListCell';
 const App=()=>{
   const [esbuildStatus,setEsbuildStatus]=useState<boolean>(false)

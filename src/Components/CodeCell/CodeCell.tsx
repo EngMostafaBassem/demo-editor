@@ -1,8 +1,7 @@
 import CodeEditor from '../CodeEditor/CodeEditor'
 import Preview from '../Preview/Preview';
-import bundle from '../../bundling/bundle'
 import './code-cell.css'
-import { useEffect, useState,useCallback } from 'react';
+import { useEffect,useCallback } from 'react';
 import EsbuildContext from '../../context/esbuildContext';
 import { useContext } from 'react';
 import { Cell } from '../../types-dictionary/cell';
@@ -39,7 +38,6 @@ const CodeCell:React.FC<CodeCellProps>=({cell})=>{
  const handleCodeChange=useCallback((content:string)=>{
    dispatch(CellCreators.updateCellRequest(cell.id,content))
  },[cell])
-   console.log('bundle state',bundleState)
   return(
       <div className="container">
            <div className="code-cell-wrapper">
